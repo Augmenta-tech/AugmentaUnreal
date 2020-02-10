@@ -108,7 +108,6 @@ void UAugmentaReceiver::OnMessageReceived(const FOSCMessage& message)
 
 void UAugmentaReceiver::UpdateScene(const FOSCMessage& message)
 {
-	// Todo: Try to find a nicer looking way to do this?
 	// The way it is done in UOSCManager relies on private classes, so this may be the best way for now.
 	UOSCManager::GetInt32(message, 0, Scene.CurrentTime);
 	UOSCManager::GetFloat(message, 1, Scene.PercentCovered);
@@ -160,7 +159,6 @@ void UAugmentaReceiver::RemovePerson(const FOSCMessage& message)
 	UOSCManager::GetInt32(message, 0, pid);
 
 	// Remove the person entry from the map
-	// TODO: Add any cleanup that is needed here
 	FAugmentaPerson oldPerson;
 	ActivePersons.RemoveAndCopyValue(pid, oldPerson);
 
