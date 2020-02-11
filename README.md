@@ -10,10 +10,10 @@ This plugin depends on the `OSC` Plugin by Epic Games Inc. which is enabled in t
 
 ## Plugin Source
 
- - [AugmentaReceiver](Source/AugmentaUnreal/Public/AugmentaReceiver.h#L69) : A child class of UObject and is responsible for the following actions.
+ - [AugmentaReceiver](Source/AugmentaUnreal/Public/AugmentaReceiver.h#L108) : A child class of UObject and is responsible for the following actions.
  	- Connecting to the `OSCServer` with the given Ip Address and Port.
 	- Processing the OSC Messages received from the `Augmenta Fusion` or the `Augmenta Node(s)` and for firing off the `OnSceneUpdated`, `OnPersonEntered`, `OnPersonUpdated` and `OnPersonWillLeave` events that can be used in Blueprints.
 	- Stopping/disconnecting the connection to the `OSCServer`.
 
- - [AugmentaPerson](Source/AugmentaUnreal/Public/AugmentaReceiver.h#L11) : A struct to hold the data for the Augmenta Person (blob) like the Pid, Oid, Age, Centroid, Velocity, Depth, BoundingRectPos, BoundingRectSize, Highest.
- - [AugmentaScene](Source/AugmentaUnreal/Public/AugmentaReceiver.h#L44) : A struct to hold the data for the Augmenta Scene like the CurrentTime, PercentCovered, NumPeople, AverageMotion, SceneSize.
+ - [AugmentaPerson](Source/AugmentaUnreal/Public/AugmentaReceiver.h#L14) : A struct to hold the data for the Augmenta Person (blob) like the Pid, Oid, Age, Centroid, Velocity, Depth, BoundingRectPos, BoundingRectSize, Highest.
+ - [AugmentaScene](Source/AugmentaUnreal/Public/AugmentaReceiver.h#L67) : A struct to hold the data for the Augmenta Scene like the CurrentTime, PercentCovered, NumPeople, AverageMotion, SceneSize.
