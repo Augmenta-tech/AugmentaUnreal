@@ -118,11 +118,11 @@ public:
 	/** 
 	 * Connects to the OSCServer with the given ip address and port.
 	 * 
-	 * @param receiveIPAddress The ip address of the device to connect to get the OSC Messages.
-	 * @param port The port of the device to listen to to get the OSC Messages.
+	 * @param ReceiveIPAddress The ip address of the device to connect to get the OSC Messages.
+	 * @param Port The port of the device to listen to to get the OSC Messages.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Augmenta")
-	void Connect(FString receiveIPAddress, int32 port);
+	void Connect(FString ReceiveIPAddress, int32 Port);
 
 	/** Stops the connection with the OSCServer. */
 	UFUNCTION(BlueprintCallable, Category = "Augmenta")
@@ -131,13 +131,13 @@ public:
 	/**
 	 * Creates an instance of the UAugmentaReceiver and connects to the OSCServer with the given details.
 	 *
-	 * @param receiveIPAddress The ip address of the device to connect to get the OSC Messages.
-	 * @param port The port of the device to listen to to get the OSC Messages.
+	 * @param ReceiveIPAddress The ip address of the device to connect to get the OSC Messages.
+	 * @param Port The port of the device to listen to to get the OSC Messages.
 	 *
 	 * @return UAugmentaReceiver* A pointer to the created instance of UAugmentaReceiver.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Augmenta")
-	static UAugmentaReceiver* CreateAugmentaReceiver(FString receiveIPAddress, int32 port);
+	static UAugmentaReceiver* CreateAugmentaReceiver(FString ReceiveIPAddress, int32 Port);
 
 	/** A delegate that is fired when an Augmenta scene OSC Message is received. */
 	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
@@ -196,15 +196,15 @@ private:
 	 * Processes the valid Augmenta OSC Message and gets the data accordingly for the Augmenta Scene and
 	 * Augmenta Persons.
 	 * 
-	 * @param message The OSC Message to process and get the Augmenta data.
+	 * @param Message The OSC Message to process and get the Augmenta data.
 	 */
 	UFUNCTION()
-	void OnMessageReceived(const FOSCMessage& message);
+	void OnMessageReceived(const FOSCMessage& Message);
 
 	/** Processes the Augmenta Scene OSC Message. */
-	void UpdateScene(const FOSCMessage& message);
+	void UpdateScene(const FOSCMessage& Message);
 	/** Processes the Augmenta Person Entered and Updated OSC Message. */
-	void UpdatePerson(const FOSCMessage& message, bool hasEntered);
+	void UpdatePerson(const FOSCMessage& Message, bool HasEntered);
 	/** Processes the Augmenta Person Will Leave OSC Message. */
-	void RemovePerson(const FOSCMessage& message);
+	void RemovePerson(const FOSCMessage& Message);
 };
