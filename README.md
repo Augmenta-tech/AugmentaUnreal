@@ -4,6 +4,12 @@ This repo contains the Augmenta Unreal Plugin only. It is currently compiled wit
 
 In order to use this plugin in any Unreal project, kindly make this repo as a submodule inside the `Plugins` folder similar to the [Augmenta Unreal Demo project](https://github.com/Theoriz/AugmentaUnreal-Demo).
 
+## Features implementation
+
+Protocol V1
+
+Protocol V2 data are not parsed yet
+
 ## Dependency
 
 This plugin depends on the `OSC` Plugin by Epic Games Inc. which is enabled in the `Plugins` section of [AugmentaUnreal.uplugin](AugmentaUnreal.uplugin#L25) and also added to the `PrivateDependencyModuleNames` in the [AugmentaUnreal.Build.cs](Source/AugmentaUnreal/AugmentaUnreal.Build.cs#L42).
