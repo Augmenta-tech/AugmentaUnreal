@@ -90,19 +90,20 @@ void UAugmentaReceiver::OnMessageReceived(const FOSCMessage& Message)
 	const FString Container = addr.GetContainer(0);
 	
 	// Ensure it is an Augmenta message
-	if (Container == "object")
+	if (Container == ObjectContainer)
 	{
+		const FString Method = addr.GetMethod();
 		// Send it off to the proper processing function based on the method
-		if (addr.GetMethod() == "update" || addr.GetMethod() == "enter")
+		if (Method == ObjectMethodEnter || Method == ObjectMethodUpdate)
 		{
-			UpdatePerson(Message, addr.GetMethod() == "enter");
+			UpdatePerson(Message, Method == ObjectMethodEnter);
 		}
-		else if (addr.GetMethod() == "leave")
+		else if (Method == ObjectMethodLeave)
 		{
 			RemovePerson(Message);
 		}
 	}
-	else if (Container == "scene")
+	else if (Container == SceneContainer)
 	{
 		UpdateScene(Message);
 	}
