@@ -19,47 +19,46 @@ struct FAugmentaPerson
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
 	int32 Frame;
 	
-	/** The unique Personal Id for each person. (ex: 42nd person to enter is assigned pid=41). */
+	/** The unique Id for each object. (ex: 42nd object to enter is assigned pid=41). */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
 	int32 Pid;
 
-	/** The Ordered Id for each person. (ex: 3rd person still present has oid=2). */
+	/**
+	 * The Ordered Id for each object.
+	 * (ex: if 3 objects are on stage, 43rd object still present has oid=2).
+	 */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
 	int32 Oid;
 
-	/** The Time on the stage/scene in Frame number. */
+	/** The Alive time in seconds. */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
 	float Age;
 
-	/** The position projected to the ground relative to the area size with (0,0) on the top left. */
+	/** The position projected to the ground (normalized). */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
 	FVector2D Centroid;
 
-	/** The speed and direction vector. */
+	/** The speed and direction vector (normalized). */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
 	FVector2D Velocity;
 
-	/** The top left co-ordinate of the bounding box relative to the area size. */
+	/** The CCW rotation w.r.t the horizontal axis (right). Range is 0 to 360. */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
 	float Orientation;
 
-	/** The top left co-ordinate of the bounding box relative to the area size. */
+	/** The center co-ordinate of the bounding box (normalized). */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
 	FVector2D BoundingRectPos;
 
-	/** The bounding box size relative to the area size. */
+	/** The size of the bounding box (normalized). */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
 	FVector2D BoundingRectSize;
 
-	/** The bounding box size relative to the area size. */
+	/** The CCW rotation of the bounding box w.r.t the horizontal axis (right). */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
 	float BoundingRectRotation;
 
-	/**
-	 * The Highest point placement.
-	 * 
-	 * @note Highest.z i.e., Height of the person is currently Not Implemented.
-	 */
+	/** The Height of the Object (in m) (absolute). */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
 	float Height;
 };
@@ -76,15 +75,11 @@ struct FAugmentaScene
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Scene")
 	int32 CurrentTime;
 	
-	/** The number of persons in the scene. */
+	/** The number of objects in the scene. */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Scene")
 	int32 NumPeople;
 
-	/**
-	 * The scene size in pixels.
-	 *
-	 * @note SceneSize.depth is currently Not Implemented.
-	 */
+	/** The scene size in meters. */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Scene")
 	FVector2D SceneSize;
 };
