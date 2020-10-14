@@ -58,15 +58,15 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
 	FSceneUpdatedEvent OnSceneUpdated;
 
-	/** A delegate that is fired when an Augmenta Person Entered OSC Message is received. */
+	/** A delegate that is fired when an Augmenta Object Entered OSC Message is received. */
 	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
 	FPersonUpdatedEvent OnPersonEntered;
 
-	/** A delegate that is fired when an Augmenta Person Updated OSC Message is received. */
+	/** A delegate that is fired when an Augmenta Object Updated OSC Message is received. */
 	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
 	FPersonUpdatedEvent OnPersonUpdated;
 
-	/** A delegate that is fired when an Augmenta Person Will Leave OSC Message is received. */
+	/** A delegate that is fired when an Augmenta Object Will Leave OSC Message is received. */
 	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
 	FPersonUpdatedEvent OnPersonWillLeave;
 
@@ -78,20 +78,20 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Augmenta")
 	FAugmentaScene GetScene() const;
 
-	/** Returns an array containing the Augmenta Persons being tracked. */
+	/** Returns an array containing the Augmenta Objects being tracked. */
 	UFUNCTION(BlueprintPure, Category = "Augmenta")
 	TArray<FAugmentaPerson> GetPersonsArray() const;
 
 	/**
-	 * Returns the Augmenta Person that has the lowest age in the scene i.e., 
-	 * the person who recently entered the scene.
+	 * Returns the Augmenta Object that has the lowest age in the scene i.e., 
+	 * the object who recently entered the scene.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Augmenta")
 	FAugmentaPerson GetNewestPerson() const;
 
 	/** 
-	 * Returns the Augmenta Person that has the highest age in the scene i.e., 
-	 * the person who has been there for the longest time.
+	 * Returns the Augmenta Object that has the highest age in the scene i.e., 
+	 * the object who has been there for the longest time.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Augmenta")
 	FAugmentaPerson GetOldestPerson() const;
@@ -100,7 +100,7 @@ private:
 
 	/**
 	 * Processes the valid Augmenta OSC Message and gets the data accordingly for the Augmenta Scene and
-	 * Augmenta Persons.
+	 * Augmenta Objects.
 	 * 
 	 * @param Message The OSC Message to process and get the Augmenta data.
 	 */
@@ -109,19 +109,19 @@ private:
 
 	/** Processes the Augmenta Scene OSC Message. */
 	void UpdateScene(const FOSCMessage& Message);
-	/** Processes the Augmenta Person Entered and Updated OSC Message. */
-	void UpdatePerson(const FOSCMessage& Message, bool HasEntered);
-	/** Processes the Augmenta Person Will Leave OSC Message. */
-	void RemovePerson(const FOSCMessage& Message);
+	/** Processes the Augmenta Object Entered and Updated OSC Message. */
+	void UpdateObject(const FOSCMessage& Message, bool HasEntered);
+	/** Processes the Augmenta Object Will Leave OSC Message. */
+	void RemoveObject(const FOSCMessage& Message);
 	
 	/** The OSCServer that is used to connect and stop. */
 	UPROPERTY()
 	UOSCServer* OSCServer;
 
-	/** The current Augmenta scene where the Augmenta persons are being tracked. */
+	/** The current Augmenta scene where the Augmenta objects are being tracked. */
 	FAugmentaScene Scene;
-	/** A key value pair that stores the Augmenta Persons being tracked with the their Pid as the unique key. */
-	TMap<int32, FAugmentaPerson> ActivePersons;
+	/** A key value pair that stores the Augmenta Objects being tracked with the their Pid as the unique key. */
+	TMap<int32, FAugmentaPerson> ActiveObjects;
 
 	const FString ContainerObject = "object";
 	const FString ContainerScene = "scene";
