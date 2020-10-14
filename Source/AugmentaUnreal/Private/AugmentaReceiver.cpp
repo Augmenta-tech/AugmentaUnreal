@@ -107,6 +107,10 @@ void UAugmentaReceiver::OnMessageReceived(const FOSCMessage& Message)
 	{
 		UpdateScene(Message);
 	}
+	else if (Method == MethodVideoOutput)
+	{
+		UpdateVideoOutputData(Message);
+	}
 }
 
 void UAugmentaReceiver::UpdateScene(const FOSCMessage& Message)
@@ -166,4 +170,16 @@ void UAugmentaReceiver::RemoveObject(const FOSCMessage& Message)
 	ActiveObjects.RemoveAndCopyValue(Pid, OldPerson);
 
 	OnPersonWillLeave.Broadcast(OldPerson);
+}
+
+void UAugmentaReceiver::UpdateVideoOutputData(const FOSCMessage& Message)
+{
+	UOSCManager::GetFloat(Message, 0, VideoOutput.Offset.X);
+	UOSCManager::GetFloat(Message, 1, VideoOutput.Offset.Y);
+	UOSCManager::GetFloat(Message, 2, VideoOutput.Size.X);
+	UOSCManager::GetFloat(Message, 3, VideoOutput.Size.Y);
+	UOSCManager::GetInt32(Message, 4, VideoOutput.Resolution.X);
+	UOSCManager::GetInt32(Message, 5, VideoOutput.Resolution.Y);
+
+	OnVideoOutputUpdated.Broadcast(VideoOutput);
 }

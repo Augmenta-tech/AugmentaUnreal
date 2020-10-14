@@ -78,3 +78,24 @@ struct FAugmentaScene
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Scene")
 	FVector2D SceneSize;
 };
+
+/** 
+ * A structure to hold data for the Augmenta VideoOutput (Fusion).
+ */
+USTRUCT(BlueprintType, Category = "Augmenta|Data")
+struct FAugmentaVideoOutput
+{
+	GENERATED_BODY()
+
+	/** The offset from the scene top left (in m). */
+	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|VideoOutput")
+	FVector2D Offset;
+
+	/** The size (in m). X is Width and Y is Height. */
+	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|VideoOutput")
+	FVector2D Size;
+
+	/** The resolution in pixels. */
+	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|VideoOutput")
+	FIntPoint Resolution;
+};

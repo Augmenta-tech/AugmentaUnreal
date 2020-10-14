@@ -11,6 +11,7 @@ class UOSCServer;
 /** Delegates */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSceneUpdatedEvent, const FAugmentaScene, Scene);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPersonUpdatedEvent, const FAugmentaPerson, Person);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FVideoOutputUpdatedEvent, const FAugmentaVideoOutput, VideoOutput);
 
 /**
  * A child class of UObject that is responsible for :
@@ -70,6 +71,10 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
 	FPersonUpdatedEvent OnPersonWillLeave;
 
+	/** A delegate that is fired when an Augmenta video output (fusion) OSC Message is received. */
+	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
+	FVideoOutputUpdatedEvent OnVideoOutputUpdated;
+
 	/** Returns if the OSCServer is active and connected. */
 	UFUNCTION(BlueprintPure, Category = "Augmenta")
 	bool IsConnected() const;
@@ -113,6 +118,8 @@ private:
 	void UpdateObject(const FOSCMessage& Message, bool HasEntered);
 	/** Processes the Augmenta Object Will Leave OSC Message. */
 	void RemoveObject(const FOSCMessage& Message);
+	/** Processes the Augmenta VideoOutput (Fusion) OSC Message. */
+	void UpdateVideoOutputData(const FOSCMessage& Message);
 	
 	/** The OSCServer that is used to connect and stop. */
 	UPROPERTY()
@@ -122,10 +129,13 @@ private:
 	FAugmentaScene Scene;
 	/** A key value pair that stores the Augmenta Objects being tracked with the their Pid as the unique key. */
 	TMap<int32, FAugmentaPerson> ActiveObjects;
+	/** The current Augmenta VideoOutput data. */
+	FAugmentaVideoOutput VideoOutput;
 
 	const FString ContainerObject = "object";
 	const FString MethodScene = "scene";
 	const FString MethodObjectEnter = "enter";
 	const FString MethodObjectUpdate = "update";
 	const FString MethodObjectLeave = "leave";
+	const FString MethodVideoOutput = "fusion";
 };
