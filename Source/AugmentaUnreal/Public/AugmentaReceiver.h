@@ -124,7 +124,7 @@ private:
 	TMap<int32, FAugmentaPerson> ActiveObjects;
 
 	const FString ContainerObject = "object";
-	const FString ContainerScene = "scene";
+	const FString MethodScene = "scene";
 	const FString MethodObjectEnter = "enter";
 	const FString MethodObjectUpdate = "update";
 	const FString MethodObjectLeave = "leave";
