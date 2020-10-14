@@ -123,9 +123,9 @@ private:
 	/** A key value pair that stores the Augmenta Persons being tracked with the their Pid as the unique key. */
 	TMap<int32, FAugmentaPerson> ActivePersons;
 
-	const FString ObjectContainer = "object";
-	const FString SceneContainer = "scene";
-	const FString ObjectMethodEnter = "enter";
-	const FString ObjectMethodUpdate = "update";
-	const FString ObjectMethodLeave = "leave";
+	const FString ContainerObject = "object";
+	const FString ContainerScene = "scene";
+	const FString MethodObjectEnter = "enter";
+	const FString MethodObjectUpdate = "update";
+	const FString MethodObjectLeave = "leave";
 };
