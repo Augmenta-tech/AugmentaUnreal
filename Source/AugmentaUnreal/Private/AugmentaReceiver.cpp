@@ -35,9 +35,9 @@ void UAugmentaReceiver::Stop()
 
 UAugmentaReceiver* UAugmentaReceiver::CreateAugmentaReceiver(FString ReceiveIPAddress, int32 Port)
 {
-	UAugmentaReceiver* receiver = NewObject<UAugmentaReceiver>();
-	receiver->Connect(ReceiveIPAddress, Port);
-	return receiver;
+	UAugmentaReceiver* Receiver = NewObject<UAugmentaReceiver>();
+	Receiver->Connect(ReceiveIPAddress, Port);
+	return Receiver;
 }
 
 bool UAugmentaReceiver::IsConnected() const
@@ -52,47 +52,47 @@ FAugmentaScene UAugmentaReceiver::GetScene() const
 
 TArray<FAugmentaPerson> UAugmentaReceiver::GetPersonsArray() const
 {
-	TArray<FAugmentaPerson> outArray;
-	ActivePersons.GenerateValueArray(outArray);
-	return outArray;
+	TArray<FAugmentaPerson> OutArray;
+	ActivePersons.GenerateValueArray(OutArray);
+	return OutArray;
 }
 
 FAugmentaPerson UAugmentaReceiver::GetNewestPerson() const
 {
-	FAugmentaPerson youngest;
-	youngest.Age = INT32_MAX;
-	for (auto& pair : ActivePersons)
+	FAugmentaPerson Youngest;
+	Youngest.Age = INT32_MAX;
+	for (auto& Pair : ActivePersons)
 	{
-		if (pair.Value.Age < youngest.Age)
+		if (Pair.Value.Age < Youngest.Age)
 		{
-			youngest = pair.Value;
+			Youngest = Pair.Value;
 		}
 	}
-	return youngest;
+	return Youngest;
 }
 
 FAugmentaPerson UAugmentaReceiver::GetOldestPerson() const
 {
-	FAugmentaPerson oldest;
-	for (auto& pair : ActivePersons)
+	FAugmentaPerson Oldest;
+	for (auto& Pair : ActivePersons)
 	{
-		if (pair.Value.Age > oldest.Age)
+		if (Pair.Value.Age > Oldest.Age)
 		{
-			oldest = pair.Value;
+			Oldest = Pair.Value;
 		}
 	}
-	return oldest;
+	return Oldest;
 }
 
 void UAugmentaReceiver::OnMessageReceived(const FOSCMessage& Message)
 {
-	FOSCAddress addr = Message.GetAddress();
-	const FString Container = addr.GetContainer(0);
+	const FOSCAddress Addr = Message.GetAddress();
+	const FString Container = Addr.GetContainer(0);
 	
 	// Ensure it is an Augmenta message
 	if (Container == ObjectContainer)
 	{
-		const FString Method = addr.GetMethod();
+		const FString Method = Addr.GetMethod();
 		// Send it off to the proper processing function based on the method
 		if (Method == ObjectMethodEnter || Method == ObjectMethodUpdate)
 		{
@@ -122,48 +122,48 @@ void UAugmentaReceiver::UpdateScene(const FOSCMessage& Message)
 
 void UAugmentaReceiver::UpdatePerson(const FOSCMessage& Message, bool HasEntered)
 {
-	int32 pid = -1;
-	UOSCManager::GetInt32(Message, 1, pid);
+	int32 Pid = -1;
+	UOSCManager::GetInt32(Message, 1, Pid);
 
 	// Find or add a person entry
-	FAugmentaPerson person = ActivePersons.FindOrAdd(pid);
+	FAugmentaPerson Person = ActivePersons.FindOrAdd(Pid);
 	// Update the values
-	person.Pid = pid;
-	UOSCManager::GetInt32(Message, 0, person.Frame);
-	UOSCManager::GetInt32(Message, 2, person.Oid);
-	UOSCManager::GetFloat(Message, 3, person.Age);
-	UOSCManager::GetFloat(Message, 4, person.Centroid.X);
-	UOSCManager::GetFloat(Message, 5, person.Centroid.Y);
-	UOSCManager::GetFloat(Message, 6, person.Velocity.X);
-	UOSCManager::GetFloat(Message, 7, person.Velocity.Y);
-	UOSCManager::GetFloat(Message, 8, person.Orientation);
-	UOSCManager::GetFloat(Message, 9, person.BoundingRectPos.X);
-	UOSCManager::GetFloat(Message, 10, person.BoundingRectPos.Y);
-	UOSCManager::GetFloat(Message, 11, person.BoundingRectSize.X);
-	UOSCManager::GetFloat(Message, 12, person.BoundingRectSize.Y);
-	UOSCManager::GetFloat(Message, 13, person.BoundingRectRotation);
-	UOSCManager::GetFloat(Message, 14, person.Height);
+	Person.Pid = Pid;
+	UOSCManager::GetInt32(Message, 0, Person.Frame);
+	UOSCManager::GetInt32(Message, 2, Person.Oid);
+	UOSCManager::GetFloat(Message, 3, Person.Age);
+	UOSCManager::GetFloat(Message, 4, Person.Centroid.X);
+	UOSCManager::GetFloat(Message, 5, Person.Centroid.Y);
+	UOSCManager::GetFloat(Message, 6, Person.Velocity.X);
+	UOSCManager::GetFloat(Message, 7, Person.Velocity.Y);
+	UOSCManager::GetFloat(Message, 8, Person.Orientation);
+	UOSCManager::GetFloat(Message, 9, Person.BoundingRectPos.X);
+	UOSCManager::GetFloat(Message, 10, Person.BoundingRectPos.Y);
+	UOSCManager::GetFloat(Message, 11, Person.BoundingRectSize.X);
+	UOSCManager::GetFloat(Message, 12, Person.BoundingRectSize.Y);
+	UOSCManager::GetFloat(Message, 13, Person.BoundingRectRotation);
+	UOSCManager::GetFloat(Message, 14, Person.Height);
 
-	ActivePersons[pid] = person;
+	ActivePersons[Pid] = Person;
 
 	if (HasEntered)
 	{
-		OnPersonEntered.Broadcast(person);
+		OnPersonEntered.Broadcast(Person);
 	}
 	else
 	{
-		OnPersonUpdated.Broadcast(person);
+		OnPersonUpdated.Broadcast(Person);
 	}
 }
 
 void UAugmentaReceiver::RemovePerson(const FOSCMessage& Message)
 {
-	int32 pid = -1;
-	UOSCManager::GetInt32(Message, 1, pid);
+	int32 Pid = -1;
+	UOSCManager::GetInt32(Message, 1, Pid);
 
 	// Remove the person entry from the map
-	FAugmentaPerson oldPerson;
-	ActivePersons.RemoveAndCopyValue(pid, oldPerson);
+	FAugmentaPerson OldPerson;
+	ActivePersons.RemoveAndCopyValue(Pid, OldPerson);
 
-	OnPersonWillLeave.Broadcast(oldPerson);
+	OnPersonWillLeave.Broadcast(OldPerson);
 }
