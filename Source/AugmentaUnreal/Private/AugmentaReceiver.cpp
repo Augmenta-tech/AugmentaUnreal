@@ -87,22 +87,24 @@ FAugmentaPerson UAugmentaReceiver::GetOldestPerson() const
 void UAugmentaReceiver::OnMessageReceived(const FOSCMessage& Message)
 {
 	FOSCAddress addr = Message.GetAddress();
+	const FString Container = addr.GetContainer(0);
 	
 	// Ensure it is an Augmenta message
-	if (addr.GetContainer(0) != "au") return;
-
-	// Send it off to the proper processing function based on the method
-	if (addr.GetMethod() == "scene")
+	if (Container == "object")
+	{
+		// Send it off to the proper processing function based on the method
+		if (addr.GetMethod() == "update" || addr.GetMethod() == "enter")
+		{
+			UpdatePerson(Message, addr.GetMethod() == "enter");
+		}
+		else if (addr.GetMethod() == "leave")
+		{
+			RemovePerson(Message);
+		}
+	}
+	else if (Container == "scene")
 	{
 		UpdateScene(Message);
-	}
-	else if (addr.GetMethod() == "personUpdated" || addr.GetMethod() == "personEntered")
-	{
-		UpdatePerson(Message, addr.GetMethod() == "personEntered");
-	}
-	else if (addr.GetMethod() == "personWillLeave")
-	{
-		RemovePerson(Message);
 	}
 }
 
@@ -110,13 +112,9 @@ void UAugmentaReceiver::UpdateScene(const FOSCMessage& Message)
 {
 	// The way it is done in UOSCManager relies on private classes, so this may be the best way for now.
 	UOSCManager::GetInt32(Message, 0, Scene.CurrentTime);
-	UOSCManager::GetFloat(Message, 1, Scene.PercentCovered);
-	UOSCManager::GetInt32(Message, 2, Scene.NumPeople);
-	UOSCManager::GetFloat(Message, 3, Scene.AverageMotion.X);
-	UOSCManager::GetFloat(Message, 4, Scene.AverageMotion.Y);
-	UOSCManager::GetInt32(Message, 5, Scene.SceneSize.X);
-	UOSCManager::GetInt32(Message, 6, Scene.SceneSize.Y);
-	UOSCManager::GetInt32(Message, 7, Scene.SceneSize.Z);
+	UOSCManager::GetInt32(Message, 1, Scene.NumPeople);
+	UOSCManager::GetFloat(Message, 2, Scene.SceneSize.X);
+	UOSCManager::GetFloat(Message, 3, Scene.SceneSize.Y);
 
 	OnSceneUpdated.Broadcast(Scene);
 }
@@ -124,26 +122,26 @@ void UAugmentaReceiver::UpdateScene(const FOSCMessage& Message)
 void UAugmentaReceiver::UpdatePerson(const FOSCMessage& Message, bool HasEntered)
 {
 	int32 pid = -1;
-	UOSCManager::GetInt32(Message, 0, pid);
+	UOSCManager::GetInt32(Message, 1, pid);
 
 	// Find or add a person entry
 	FAugmentaPerson person = ActivePersons.FindOrAdd(pid);
 	// Update the values
 	person.Pid = pid;
-	UOSCManager::GetInt32(Message, 1, person.Oid);
-	UOSCManager::GetInt32(Message, 2, person.Age);
-	UOSCManager::GetFloat(Message, 3, person.Centroid.X);
-	UOSCManager::GetFloat(Message, 4, person.Centroid.Y);
-	UOSCManager::GetFloat(Message, 5, person.Velocity.X);
-	UOSCManager::GetFloat(Message, 6, person.Velocity.Y);
-	UOSCManager::GetFloat(Message, 7, person.Depth);
-	UOSCManager::GetFloat(Message, 8, person.BoundingRectPos.X);
-	UOSCManager::GetFloat(Message, 9, person.BoundingRectPos.Y);
-	UOSCManager::GetFloat(Message, 10, person.BoundingRectSize.X);
-	UOSCManager::GetFloat(Message, 11, person.BoundingRectSize.Y);
-	UOSCManager::GetFloat(Message, 12, person.Highest.X);
-	UOSCManager::GetFloat(Message, 13, person.Highest.Y);
-	UOSCManager::GetFloat(Message, 14, person.Highest.Z);
+	UOSCManager::GetInt32(Message, 0, person.Frame);
+	UOSCManager::GetInt32(Message, 2, person.Oid);
+	UOSCManager::GetFloat(Message, 3, person.Age);
+	UOSCManager::GetFloat(Message, 4, person.Centroid.X);
+	UOSCManager::GetFloat(Message, 5, person.Centroid.Y);
+	UOSCManager::GetFloat(Message, 6, person.Velocity.X);
+	UOSCManager::GetFloat(Message, 7, person.Velocity.Y);
+	UOSCManager::GetFloat(Message, 8, person.Orientation);
+	UOSCManager::GetFloat(Message, 9, person.BoundingRectPos.X);
+	UOSCManager::GetFloat(Message, 10, person.BoundingRectPos.Y);
+	UOSCManager::GetFloat(Message, 11, person.BoundingRectSize.X);
+	UOSCManager::GetFloat(Message, 12, person.BoundingRectSize.Y);
+	UOSCManager::GetFloat(Message, 13, person.BoundingRectRotation);
+	UOSCManager::GetFloat(Message, 14, person.Height);
 
 	ActivePersons[pid] = person;
 
@@ -160,7 +158,7 @@ void UAugmentaReceiver::UpdatePerson(const FOSCMessage& Message, bool HasEntered
 void UAugmentaReceiver::RemovePerson(const FOSCMessage& Message)
 {
 	int32 pid = -1;
-	UOSCManager::GetInt32(Message, 0, pid);
+	UOSCManager::GetInt32(Message, 1, pid);
 
 	// Remove the person entry from the map
 	FAugmentaPerson oldPerson;

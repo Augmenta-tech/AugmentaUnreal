@@ -14,6 +14,10 @@ USTRUCT(BlueprintType, Category = "Augmenta|Data")
 struct FAugmentaPerson
 {
 	GENERATED_BODY()
+
+	/** The scene frame number. */
+	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
+	int32 Frame;
 	
 	/** The unique Personal Id for each person. (ex: 42nd person to enter is assigned pid=41). */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
@@ -25,7 +29,7 @@ struct FAugmentaPerson
 
 	/** The Time on the stage/scene in Frame number. */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
-	int32 Age;
+	float Age;
 
 	/** The position projected to the ground relative to the area size with (0,0) on the top left. */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
@@ -35,13 +39,9 @@ struct FAugmentaPerson
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
 	FVector2D Velocity;
 
-	/**
-	 * The distance to the sensor in metres.
-	 *
-	 * @note Currently this is Not Implemented.
-	 */
+	/** The top left co-ordinate of the bounding box relative to the area size. */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
-	float Depth;
+	float Orientation;
 
 	/** The top left co-ordinate of the bounding box relative to the area size. */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
@@ -51,13 +51,17 @@ struct FAugmentaPerson
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
 	FVector2D BoundingRectSize;
 
+	/** The bounding box size relative to the area size. */
+	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
+	float BoundingRectRotation;
+
 	/**
 	 * The Highest point placement.
 	 * 
 	 * @note Highest.z i.e., Height of the person is currently Not Implemented.
 	 */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Person")
-	FVector Highest;
+	float Height;
 };
 
 /** 
@@ -72,17 +76,9 @@ struct FAugmentaScene
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Scene")
 	int32 CurrentTime;
 	
-	/** The percentage of the scene covered by persons. */
-	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Scene")
-	float PercentCovered;
-	
 	/** The number of persons in the scene. */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Scene")
 	int32 NumPeople;
-
-	/** The average motion. */
-	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Scene")
-	FVector2D AverageMotion;
 
 	/**
 	 * The scene size in pixels.
@@ -90,7 +86,7 @@ struct FAugmentaScene
 	 * @note SceneSize.depth is currently Not Implemented.
 	 */
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Scene")
-	FIntVector SceneSize;
+	FVector2D SceneSize;
 };
 
 /** Delegates */
