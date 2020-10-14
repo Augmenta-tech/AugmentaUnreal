@@ -84,6 +84,11 @@ FAugmentaPerson UAugmentaReceiver::GetOldestPerson() const
 	return Oldest;
 }
 
+FAugmentaVideoOutput UAugmentaReceiver::GetVideoOutput() const
+{
+	return VideoOutput;
+}
+
 void UAugmentaReceiver::OnMessageReceived(const FOSCMessage& Message)
 {
 	const FOSCAddress Addr = Message.GetAddress();

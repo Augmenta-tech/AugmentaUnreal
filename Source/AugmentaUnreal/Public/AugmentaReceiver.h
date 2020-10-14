@@ -101,6 +101,10 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Augmenta")
 	FAugmentaPerson GetOldestPerson() const;
 
+	/** Returns the current Augmenta VideoOutput Data. */
+	UFUNCTION(BlueprintPure, Category = "Augmenta")
+	FAugmentaVideoOutput GetVideoOutput() const;
+
 private:
 
 	/**
