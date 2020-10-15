@@ -93,19 +93,36 @@ void UAugmentaReceiver::OnMessageReceived(const FOSCMessage& Message)
 {
 	const FOSCAddress Addr = Message.GetAddress();
 	const FString Container = Addr.GetContainer(0);
+	const FString InnerContainer = Addr.GetContainer(1);
 	const FString Method = Addr.GetMethod();
 	
 	// Ensure it is an Augmenta message
 	if (Container == ContainerObject)
 	{
-		// Send it off to the proper processing function based on the method
-		if (Method == MethodObjectEnter || Method == MethodObjectUpdate)
+		if (InnerContainer.IsEmpty())
 		{
-			UpdateObject(Message, Method == MethodObjectEnter);
+			const bool HasEntered = Method == MethodObjectEnter;
+			// Send it off to the proper processing function based on the method
+			if (HasEntered || Method == MethodObjectUpdate)
+			{
+				UpdateObject(Message, HasEntered);
+			}
+			else if (Method == MethodObjectLeave)
+			{
+				RemoveObject(Message);
+			}
 		}
-		else if (Method == MethodObjectLeave)
+		else if (Method == MethodObjectExtra)
 		{
-			RemoveObject(Message);
+			const bool HasEntered = InnerContainer == MethodObjectEnter;
+			if (HasEntered || InnerContainer == MethodObjectUpdate)
+			{
+				UpdateObjectExtraData(Message, HasEntered);
+			}
+			else if (InnerContainer == MethodObjectLeave)
+			{
+				RemoveObjectExtraData(Message);
+			}
 		}
 	}
 	else if (Method == MethodScene)
@@ -187,4 +204,43 @@ void UAugmentaReceiver::UpdateVideoOutputData(const FOSCMessage& Message)
 	UOSCManager::GetInt32(Message, 5, VideoOutput.Resolution.Y);
 
 	OnVideoOutputUpdated.Broadcast(VideoOutput);
+}
+
+void UAugmentaReceiver::UpdateObjectExtraData(const FOSCMessage& Message, bool HasEntered)
+{
+	int32 Id = -1;
+	UOSCManager::GetInt32(Message, 1, Id);
+
+	FAugmentaObjectExtra Extra = ActiveObjectsExtraData.FindOrAdd(Id);
+	// Update the values
+	Extra.Id = Id;
+	UOSCManager::GetInt32(Message, 0, Extra.Frame);
+	UOSCManager::GetInt32(Message, 2, Extra.Oid);
+	UOSCManager::GetFloat(Message, 3, Extra.Highest.X);
+	UOSCManager::GetFloat(Message, 4, Extra.Highest.Y);
+	UOSCManager::GetFloat(Message, 5, Extra.Distance);
+	UOSCManager::GetFloat(Message, 6, Extra.Reflectivity);
+
+	ActiveObjectsExtraData[Id] = Extra;
+	
+	if (HasEntered)
+	{
+		OnEnteredExtraData.Broadcast(Extra);
+	}
+	else
+	{
+		OnUpdatedExtraData.Broadcast(Extra);
+	}
+}
+
+void UAugmentaReceiver::RemoveObjectExtraData(const FOSCMessage& Message)
+{
+	int32 Id = -1;
+	UOSCManager::GetInt32(Message, 1, Id);
+
+	// Remove the entry from the map
+	FAugmentaObjectExtra ExtraDataToRemove;
+	ActiveObjectsExtraData.RemoveAndCopyValue(Id, ExtraDataToRemove);
+
+	OnLeaveExtraData.Broadcast(ExtraDataToRemove);
 }

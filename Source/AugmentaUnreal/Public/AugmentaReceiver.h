@@ -12,6 +12,7 @@ class UOSCServer;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSceneUpdatedEvent, const FAugmentaScene, Scene);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPersonUpdatedEvent, const FAugmentaPerson, Person);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FVideoOutputUpdatedEvent, const FAugmentaVideoOutput, VideoOutput);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FExtraDataEvent, const FAugmentaObjectExtra, ExtraData);
 
 /**
  * A child class of UObject that is responsible for :
@@ -75,6 +76,18 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
 	FVideoOutputUpdatedEvent OnVideoOutputUpdated;
 
+	/** A delegate that is fired when an Augmenta object enter extra data OSC Message is received. */
+	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
+	FExtraDataEvent OnEnteredExtraData;
+
+	/** A delegate that is fired when an Augmenta object update extra data OSC Message is received. */
+	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
+	FExtraDataEvent OnUpdatedExtraData;
+	
+	/** A delegate that is fired when an Augmenta object leave extra data OSC Message is received. */
+	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
+	FExtraDataEvent OnLeaveExtraData;
+
 	/** Returns if the OSCServer is active and connected. */
 	UFUNCTION(BlueprintPure, Category = "Augmenta")
 	bool IsConnected() const;
@@ -124,6 +137,10 @@ private:
 	void RemoveObject(const FOSCMessage& Message);
 	/** Processes the Augmenta VideoOutput (Fusion) OSC Message. */
 	void UpdateVideoOutputData(const FOSCMessage& Message);
+	/** Processes the Augmenta Object enter and update extra data OSC Message. */
+	void UpdateObjectExtraData(const FOSCMessage& Message, bool HasEntered);
+	/** Processes the Augmenta Object leave extra data OSC Message. */
+	void RemoveObjectExtraData(const FOSCMessage& Message);
 	
 	/** The OSCServer that is used to connect and stop. */
 	UPROPERTY()
@@ -131,10 +148,12 @@ private:
 
 	/** The current Augmenta scene where the Augmenta objects are being tracked. */
 	FAugmentaScene Scene;
-	/** A key value pair that stores the Augmenta Objects being tracked with the their Pid as the unique key. */
+	/** A key value pair that stores the Augmenta Objects being tracked with the their id as the unique key. */
 	TMap<int32, FAugmentaPerson> ActiveObjects;
 	/** The current Augmenta VideoOutput data. */
 	FAugmentaVideoOutput VideoOutput;
+	/** A key value pair that stores the Augmenta Objects extra data with the their id as the unique key. */
+	TMap<int32, FAugmentaObjectExtra> ActiveObjectsExtraData;
 
 	const FString ContainerObject = "object";
 	const FString MethodScene = "scene";
@@ -142,4 +161,5 @@ private:
 	const FString MethodObjectUpdate = "update";
 	const FString MethodObjectLeave = "leave";
 	const FString MethodVideoOutput = "fusion";
+	const FString MethodObjectExtra = "extra";
 };

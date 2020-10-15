@@ -99,3 +99,39 @@ struct FAugmentaVideoOutput
 	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|VideoOutput")
 	FIntPoint Resolution;
 };
+
+/** 
+ * A structure to hold data for the Augmenta Object's Extra info.
+ */
+USTRUCT(BlueprintType, Category = "Augmenta|Data")
+struct FAugmentaObjectExtra
+{
+	GENERATED_BODY()
+
+	/** The scene frame number. */
+	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Object|Extra")
+	int32 Frame;
+	
+	/** The unique Id for each object. (ex: 42nd object to enter is assigned id=41). */
+	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Object|Extra")
+	int32 Id;
+
+	/**
+	 * The Ordered Id for each object.
+	 * (ex: if 3 objects are on stage, 43rd object still present has oid=2).
+	 */
+	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Object|Extra")
+	int32 Oid;
+
+	/** The Highest point placement (normalized). */
+	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Object|Extra")
+	FVector2D Highest;
+
+	/** The sensor distance (in m). */
+	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Object|Extra")
+	float Distance;
+
+	/** The sensor distance (in m). */
+	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Object|Extra")
+	float Reflectivity;
+};
