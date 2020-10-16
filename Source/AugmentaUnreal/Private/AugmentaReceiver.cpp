@@ -85,9 +85,40 @@ FAugmentaPerson UAugmentaReceiver::GetOldestPerson() const
 	return Oldest;
 }
 
+bool UAugmentaReceiver::GetObject(const int32 Id, FAugmentaPerson& Object) const
+{
+	const FAugmentaPerson* Obj = ActiveObjects.Find(Id);
+	if (Obj != nullptr)
+	{
+		Object = *Obj;
+		return true;
+	}
+
+	return false;
+}
+
 FAugmentaVideoOutput UAugmentaReceiver::GetVideoOutput() const
 {
 	return VideoOutput;
+}
+
+TArray<FAugmentaObjectExtra> UAugmentaReceiver::GetObjectExtrasArray() const
+{
+	TArray<FAugmentaObjectExtra> OutArray;
+	ActiveObjectsExtraData.GenerateValueArray(OutArray);
+	return OutArray;
+}
+
+bool UAugmentaReceiver::GetObjectExtra(const int32 Id, FAugmentaObjectExtra& Extra) const
+{
+	const FAugmentaObjectExtra* Ex = ActiveObjectsExtraData.Find(Id);
+	if (Ex != nullptr)
+	{
+		Extra = *Ex;
+		return true;
+	}
+
+	return false;
 }
 
 void UAugmentaReceiver::OnMessageReceived(const FOSCMessage& Message)

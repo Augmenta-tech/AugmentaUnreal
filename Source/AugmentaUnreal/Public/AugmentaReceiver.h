@@ -114,9 +114,35 @@ public:
 	UFUNCTION(BlueprintPure, DisplayName = "GetOldestObject", Category = "Augmenta")
 	FAugmentaPerson GetOldestPerson() const;
 
+	/**
+	 * Helper function to find the Object with a given Id.
+	 *
+	 * @param Id The Id used to find the Augmenta Object.
+	 * @param Object The Augmenta Object with the given Id if successful.
+	 *
+	 * @return true if successful, false otherwise.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Augmenta")
+	bool GetObject(const int32 Id, FAugmentaPerson& Object) const;
+
 	/** Returns the current Augmenta VideoOutput Data. */
 	UFUNCTION(BlueprintPure, Category = "Augmenta")
 	FAugmentaVideoOutput GetVideoOutput() const;
+
+	/** Returns an array containing the Augmenta Objects Extra data. */
+	UFUNCTION(BlueprintPure, Category = "Augmenta")
+	TArray<FAugmentaObjectExtra> GetObjectExtrasArray() const;
+
+	/**
+	 * Helper function to find the Object Extra data with a given Id.
+	 *
+	 * @param Id The Id used to find the Augmenta Object Extra data.
+	 * @param Extra The Augmenta Object Extra data with the given Id if successful.
+	 *
+	 * @return true if successful, false otherwise.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Augmenta")
+	bool GetObjectExtra(const int32 Id, FAugmentaObjectExtra& Extra) const;
 
 private:
 
