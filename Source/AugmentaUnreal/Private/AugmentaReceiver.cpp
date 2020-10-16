@@ -12,6 +12,7 @@ UAugmentaReceiver::~UAugmentaReceiver()
 	Stop();
 
 	ActiveObjects.Empty();
+	ActiveObjectsExtraData.Empty();
 }
 
 void UAugmentaReceiver::Connect(FString ReceiveIPAddress, int32 Port)

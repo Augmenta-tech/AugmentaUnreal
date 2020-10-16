@@ -61,15 +61,15 @@ public:
 	FSceneUpdatedEvent OnSceneUpdated;
 
 	/** A delegate that is fired when an Augmenta Object Entered OSC Message is received. */
-	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
+	UPROPERTY(BlueprintAssignable, DisplayName = "OnObjectEntered", Category = "Augmenta")
 	FPersonUpdatedEvent OnPersonEntered;
 
 	/** A delegate that is fired when an Augmenta Object Updated OSC Message is received. */
-	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
+	UPROPERTY(BlueprintAssignable, DisplayName = "OnObjectUpdated", Category = "Augmenta")
 	FPersonUpdatedEvent OnPersonUpdated;
 
 	/** A delegate that is fired when an Augmenta Object Will Leave OSC Message is received. */
-	UPROPERTY(BlueprintAssignable, Category = "Augmenta")
+	UPROPERTY(BlueprintAssignable, DisplayName = "OnObjectLeft", Category = "Augmenta")
 	FPersonUpdatedEvent OnPersonWillLeave;
 
 	/** A delegate that is fired when an Augmenta video output (fusion) OSC Message is received. */
@@ -97,21 +97,21 @@ public:
 	FAugmentaScene GetScene() const;
 
 	/** Returns an array containing the Augmenta Objects being tracked. */
-	UFUNCTION(BlueprintPure, Category = "Augmenta")
+	UFUNCTION(BlueprintPure, DisplayName = "GetObjectsArray", Category = "Augmenta")
 	TArray<FAugmentaPerson> GetPersonsArray() const;
 
 	/**
 	 * Returns the Augmenta Object that has the lowest age in the scene i.e., 
 	 * the object who recently entered the scene.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Augmenta")
+	UFUNCTION(BlueprintPure, DisplayName = "GetNewestObject", Category = "Augmenta")
 	FAugmentaPerson GetNewestPerson() const;
 
 	/** 
 	 * Returns the Augmenta Object that has the highest age in the scene i.e., 
 	 * the object who has been there for the longest time.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Augmenta")
+	UFUNCTION(BlueprintPure, DisplayName = "GetOldestObject", Category = "Augmenta")
 	FAugmentaPerson GetOldestPerson() const;
 
 	/** Returns the current Augmenta VideoOutput Data. */
