@@ -15,7 +15,7 @@ struct FAugmentaPerson
 	int32 Frame;
 	
 	/** The unique Id for each object. (ex: 42nd object to enter is assigned pid=41). */
-	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Object")
+	UPROPERTY(BlueprintReadOnly, DisplayName = "Id", Category = "Augmenta|Object")
 	int32 Pid;
 
 	/**
@@ -67,11 +67,11 @@ struct FAugmentaScene
 	GENERATED_BODY()
 
 	/** The Time in frame number. */
-	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Scene")
+	UPROPERTY(BlueprintReadOnly, DisplayName = "Frame", Category = "Augmenta|Scene")
 	int32 CurrentTime;
 
 	/** The number of objects in the scene. */
-	UPROPERTY(BlueprintReadOnly, Category = "Augmenta|Scene")
+	UPROPERTY(BlueprintReadOnly, DisplayName = "ObjectCount", Category = "Augmenta|Scene")
 	int32 NumPeople;
 
 	/** The scene size in meters. */
