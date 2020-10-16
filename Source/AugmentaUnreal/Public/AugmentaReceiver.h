@@ -49,7 +49,7 @@ public:
 	 * Creates an instance of the UAugmentaReceiver and connects to the OSCServer with the given details.
 	 *
 	 * @param ReceiveIPAddress The ip address of the device to connect to get the OSC Messages.
-	 * @param Port The port of the device to listen to to get the OSC Messages.
+	 * @param Port The port of the device to listen to get the OSC Messages.
 	 *
 	 * @return UAugmentaReceiver* A pointer to the created instance of UAugmentaReceiver.
 	 */
