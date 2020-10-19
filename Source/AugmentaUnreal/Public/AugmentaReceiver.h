@@ -36,7 +36,7 @@ public:
 	 * Connects to the OSCServer with the given ip address and port.
 	 * 
 	 * @param ReceiveIPAddress The ip address of the device to connect to get the OSC Messages.
-	 * @param Port The port of the device to listen to to get the OSC Messages.
+	 * @param Port The port of the device to listen to get the OSC Messages.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Augmenta")
 	void Connect(FString ReceiveIPAddress, int32 Port);
