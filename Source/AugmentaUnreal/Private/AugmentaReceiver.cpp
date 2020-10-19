@@ -20,7 +20,7 @@ void UAugmentaReceiver::Connect(FString ReceiveIPAddress, int32 Port)
 {
 	if (OSCServer) return;
 
-	OSCServer = UOSCManager::CreateOSCServer(ReceiveIPAddress, Port, false, true, "Augmenta OSC");
+	OSCServer = UOSCManager::CreateOSCServer(ReceiveIPAddress, Port, false, true, "AugmentaOSCServer");
 
 	OSCServer->OnOscMessageReceived.AddDynamic(this, &UAugmentaReceiver::OnMessageReceived);
 }
