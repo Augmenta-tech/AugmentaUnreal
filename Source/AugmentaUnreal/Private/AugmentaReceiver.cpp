@@ -62,7 +62,7 @@ TArray<FAugmentaPerson> UAugmentaReceiver::GetPersonsArray() const
 FAugmentaPerson UAugmentaReceiver::GetNewestPerson() const
 {
 	FAugmentaPerson Youngest;
-	Youngest.Age = INT32_MAX;
+	Youngest.Age = FLT_MAX;
 	for (auto& Pair : ActiveObjects)
 	{
 		if (Pair.Value.Age < Youngest.Age)
