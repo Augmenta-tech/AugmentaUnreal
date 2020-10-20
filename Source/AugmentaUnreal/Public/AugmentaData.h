@@ -6,7 +6,7 @@
  * A structure to hold the data for the Augmenta Object.
  */
 USTRUCT(BlueprintType, Category = "Augmenta|Data")
-struct FAugmentaPerson
+struct FAugmentaObject
 {
 	GENERATED_BODY()
 

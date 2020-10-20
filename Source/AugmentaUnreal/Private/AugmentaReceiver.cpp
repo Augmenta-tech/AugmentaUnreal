@@ -51,16 +51,16 @@ FAugmentaScene UAugmentaReceiver::GetScene() const
 	return Scene;
 }
 
-TArray<FAugmentaPerson> UAugmentaReceiver::GetPersonsArray() const
+TArray<FAugmentaObject> UAugmentaReceiver::GetPersonsArray() const
 {
-	TArray<FAugmentaPerson> OutArray;
+	TArray<FAugmentaObject> OutArray;
 	ActiveObjects.GenerateValueArray(OutArray);
 	return OutArray;
 }
 
-FAugmentaPerson UAugmentaReceiver::GetNewestPerson() const
+FAugmentaObject UAugmentaReceiver::GetNewestPerson() const
 {
-	FAugmentaPerson Youngest;
+	FAugmentaObject Youngest;
 	Youngest.Age = FLT_MAX;
 	for (auto& Pair : ActiveObjects)
 	{
@@ -72,9 +72,9 @@ FAugmentaPerson UAugmentaReceiver::GetNewestPerson() const
 	return Youngest;
 }
 
-FAugmentaPerson UAugmentaReceiver::GetOldestPerson() const
+FAugmentaObject UAugmentaReceiver::GetOldestPerson() const
 {
-	FAugmentaPerson Oldest;
+	FAugmentaObject Oldest;
 	for (auto& Pair : ActiveObjects)
 	{
 		if (Pair.Value.Age > Oldest.Age)
@@ -85,9 +85,9 @@ FAugmentaPerson UAugmentaReceiver::GetOldestPerson() const
 	return Oldest;
 }
 
-bool UAugmentaReceiver::GetObject(const int32 Id, FAugmentaPerson& Object) const
+bool UAugmentaReceiver::GetObject(const int32 Id, FAugmentaObject& Object) const
 {
-	const FAugmentaPerson* Obj = ActiveObjects.Find(Id);
+	const FAugmentaObject* Obj = ActiveObjects.Find(Id);
 	if (Obj != nullptr)
 	{
 		Object = *Obj;
@@ -184,7 +184,7 @@ void UAugmentaReceiver::UpdateObject(const FOSCMessage& Message, bool HasEntered
 	UOSCManager::GetInt32(Message, 1, Pid);
 
 	// Find or add a person entry
-	FAugmentaPerson Person = ActiveObjects.FindOrAdd(Pid);
+	FAugmentaObject Person = ActiveObjects.FindOrAdd(Pid);
 	// Update the values
 	Person.Pid = Pid;
 	UOSCManager::GetInt32(Message, 0, Person.Frame);
@@ -220,7 +220,7 @@ void UAugmentaReceiver::RemoveObject(const FOSCMessage& Message)
 	UOSCManager::GetInt32(Message, 1, Pid);
 
 	// Remove the person entry from the map
-	FAugmentaPerson OldPerson;
+	FAugmentaObject OldPerson;
 	ActiveObjects.RemoveAndCopyValue(Pid, OldPerson);
 
 	OnPersonWillLeave.Broadcast(OldPerson);

@@ -10,7 +10,7 @@ class UOSCServer;
 
 /** Delegates */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSceneUpdatedEvent, const FAugmentaScene, Scene);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPersonUpdatedEvent, const FAugmentaPerson, Person);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPersonUpdatedEvent, const FAugmentaObject, Person);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FVideoOutputUpdatedEvent, const FAugmentaVideoOutput, VideoOutput);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FExtraDataEvent, const FAugmentaObjectExtra, ExtraData);
 
@@ -98,21 +98,21 @@ public:
 
 	/** Returns an array containing the Augmenta Objects being tracked. */
 	UFUNCTION(BlueprintPure, DisplayName = "GetObjectsArray", Category = "Augmenta")
-	TArray<FAugmentaPerson> GetPersonsArray() const;
+	TArray<FAugmentaObject> GetPersonsArray() const;
 
 	/**
 	 * Returns the Augmenta Object that has the lowest age in the scene i.e., 
 	 * the object who recently entered the scene.
 	 */
 	UFUNCTION(BlueprintPure, DisplayName = "GetNewestObject", Category = "Augmenta")
-	FAugmentaPerson GetNewestPerson() const;
+	FAugmentaObject GetNewestPerson() const;
 
 	/** 
 	 * Returns the Augmenta Object that has the highest age in the scene i.e., 
 	 * the object who has been there for the longest time.
 	 */
 	UFUNCTION(BlueprintPure, DisplayName = "GetOldestObject", Category = "Augmenta")
-	FAugmentaPerson GetOldestPerson() const;
+	FAugmentaObject GetOldestPerson() const;
 
 	/**
 	 * Helper function to find the Object with a given Id.
@@ -123,7 +123,7 @@ public:
 	 * @return true if successful, false otherwise.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Augmenta")
-	bool GetObject(const int32 Id, FAugmentaPerson& Object) const;
+	bool GetObject(const int32 Id, FAugmentaObject& Object) const;
 
 	/** Returns the current Augmenta VideoOutput Data. */
 	UFUNCTION(BlueprintPure, Category = "Augmenta")
@@ -153,7 +153,7 @@ private:
 	/** The current Augmenta scene where the Augmenta objects are being tracked. */
 	FAugmentaScene Scene;
 	/** A key value pair that stores the Augmenta Objects being tracked with the their id as the unique key. */
-	TMap<int32, FAugmentaPerson> ActiveObjects;
+	TMap<int32, FAugmentaObject> ActiveObjects;
 	/** The current Augmenta VideoOutput data. */
 	FAugmentaVideoOutput VideoOutput;
 	/** A key value pair that stores the Augmenta Objects extra data with the their id as the unique key. */
