@@ -153,7 +153,7 @@ private:
 	/** The current Augmenta scene where the Augmenta objects are being tracked. */
 	FAugmentaScene Scene;
 	/** A key value pair that stores the Augmenta Objects being tracked with the their id as the unique key. */
-	TMap<int32, FAugmentaObject> ActiveObjects;
+	TMap<int32, FAugmentaPerson> ActiveObjects;
 	/** The current Augmenta VideoOutput data. */
 	FAugmentaVideoOutput VideoOutput;
 	/** A key value pair that stores the Augmenta Objects extra data with the their id as the unique key. */
