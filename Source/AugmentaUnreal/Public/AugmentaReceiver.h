@@ -36,7 +36,7 @@ public:
 	 * Connects to the OSCServer with the given ip address and port.
 	 * 
 	 * @param ReceiveIPAddress The ip address of the device to connect to get the OSC Messages.
-	 * @param Port The port of the device to listen to to get the OSC Messages.
+	 * @param Port The port of the device to listen to, to get the OSC Messages.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Augmenta")
 	void Connect(FString ReceiveIPAddress, int32 Port);
@@ -49,7 +49,7 @@ public:
 	 * Creates an instance of the UAugmentaReceiver and connects to the OSCServer with the given details.
 	 *
 	 * @param ReceiveIPAddress The ip address of the device to connect to get the OSC Messages.
-	 * @param Port The port of the device to listen to get the OSC Messages.
+	 * @param Port The port of the device to listen to, to get the OSC Messages.
 	 *
 	 * @return UAugmentaReceiver* A pointer to the created instance of UAugmentaReceiver.
 	 */
@@ -146,6 +146,27 @@ public:
 
 private:
 
+	/** The OSCServer that is used to connect and stop. */
+	UPROPERTY()
+	UOSCServer* OSCServer;
+
+	/** The current Augmenta scene where the Augmenta objects are being tracked. */
+	FAugmentaScene Scene;
+	/** A key value pair that stores the Augmenta Objects being tracked with the their id as the unique key. */
+	TMap<int32, FAugmentaPerson> ActiveObjects;
+	/** The current Augmenta VideoOutput data. */
+	FAugmentaVideoOutput VideoOutput;
+	/** A key value pair that stores the Augmenta Objects extra data with the their id as the unique key. */
+	TMap<int32, FAugmentaObjectExtra> ActiveObjectsExtraData;
+
+	const FString ContainerObject = "object";
+	const FString MethodScene = "scene";
+	const FString MethodObjectEnter = "enter";
+	const FString MethodObjectUpdate = "update";
+	const FString MethodObjectLeave = "leave";
+	const FString MethodVideoOutput = "fusion";
+	const FString MethodObjectExtra = "extra";
+	
 	/**
 	 * Processes the valid Augmenta OSC Message and gets the data accordingly for the Augmenta Scene and
 	 * Augmenta Objects.
@@ -169,25 +190,4 @@ private:
 	void UpdateObjectExtraData(const FOSCMessage& Message, bool HasEntered);
 	/** Processes the Augmenta Object leave extra data OSC Message. */
 	void RemoveObjectExtraData(const FOSCMessage& Message);
-	
-	/** The OSCServer that is used to connect and stop. */
-	UPROPERTY()
-	UOSCServer* OSCServer;
-
-	/** The current Augmenta scene where the Augmenta objects are being tracked. */
-	FAugmentaScene Scene;
-	/** A key value pair that stores the Augmenta Objects being tracked with the their id as the unique key. */
-	TMap<int32, FAugmentaPerson> ActiveObjects;
-	/** The current Augmenta VideoOutput data. */
-	FAugmentaVideoOutput VideoOutput;
-	/** A key value pair that stores the Augmenta Objects extra data with the their id as the unique key. */
-	TMap<int32, FAugmentaObjectExtra> ActiveObjectsExtraData;
-
-	const FString ContainerObject = "object";
-	const FString MethodScene = "scene";
-	const FString MethodObjectEnter = "enter";
-	const FString MethodObjectUpdate = "update";
-	const FString MethodObjectLeave = "leave";
-	const FString MethodVideoOutput = "fusion";
-	const FString MethodObjectExtra = "extra";
 };
