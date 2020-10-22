@@ -172,9 +172,11 @@ private:
 	 * Augmenta Objects.
 	 * 
 	 * @param Message The OSC Message to process and get the Augmenta data.
+	 * @param IPAddress The OSC receive IP address of the device.
+	 * @param Port The port of the device where the OSC Messages are received.
 	 */
 	UFUNCTION()
-	void OnMessageReceived(const FOSCMessage& Message);
+	void OnMessageReceived(const FOSCMessage& Message, const FString& IPAddress, int32 Port);
 
 	/** Processes the Augmenta Scene OSC Message. */
 	void UpdateScene(const FOSCMessage& Message);

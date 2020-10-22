@@ -1,5 +1,6 @@
 #include "AugmentaReceiver.h"
 #include "OSCManager.h"
+#include "OSCServer.h"
 
 
 UAugmentaReceiver::UAugmentaReceiver()
@@ -19,7 +20,7 @@ void UAugmentaReceiver::Connect(FString ReceiveIPAddress, int32 Port)
 {
 	if (OSCServer) return;
 
-	OSCServer = UOSCManager::CreateOSCServer(ReceiveIPAddress, Port, false, true);
+	OSCServer = UOSCManager::CreateOSCServer(ReceiveIPAddress, Port, false, true, "AugmentaOSCServer");
 
 	OSCServer->OnOscMessageReceived.AddDynamic(this, &UAugmentaReceiver::OnMessageReceived);
 }
@@ -121,7 +122,7 @@ bool UAugmentaReceiver::GetObjectExtra(const int32 Id, FAugmentaObjectExtra& Ext
 	return false;
 }
 
-void UAugmentaReceiver::OnMessageReceived(const FOSCMessage& Message)
+void UAugmentaReceiver::OnMessageReceived(const FOSCMessage& Message, const FString& IPAddress, int32 Port)
 {
 	const FOSCAddress Addr = Message.GetAddress();
 	const FString Container = Addr.GetContainer(0);
