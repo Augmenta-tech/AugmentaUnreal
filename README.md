@@ -1,16 +1,16 @@
-# Augmenta Unreal Plugin
+# [Augmenta](https://www.augmenta-tech.com) [Unreal](https://www.unrealengine.com) Plugin
 
 This repo contains the Augmenta Unreal Plugin only. It is currently compiled with Unreal version **4.25**.
 
-In order to use this plugin in any Unreal project, kindly make this repo as a submodule inside the `Plugins` folder similar to the [Augmenta Unreal Demo project](https://github.com/Theoriz/AugmentaUnreal-Demo).
+In order to use this plugin in any Unreal project, kindly make this repo as a submodule inside the `Plugins` folder similar to the [Augmenta Unreal Demo project](https://github.com/Augmenta-tech/AugmentaUnreal-Demo).
 
 ## Features implementation
 
-### Protocol V1
-[V1 Wiki](https://github.com/Theoriz/Augmenta/wiki/Legacy-protocols)
+### OSC Protocol V1
+[V1 Wiki](https://github.com/Augmenta-tech/Augmenta/wiki/Data)
 
-### Protocol V2
-[V2 Wiki](https://github.com/Theoriz/Augmenta/wiki)
+### OSC Protocol V2
+[V2 Wiki](https://github.com/Augmenta-tech/Augmenta/wiki/Data)
  - There are very few API breaking changes in V2.
  - `Augmenta Person` is now referred to as `Augmenta Object` and changes have been made to the plugin in a way that it doesn't break the API.
  - Some of the data in the Augmenta Object is moved into Extra data to correspond to the OSC message.
