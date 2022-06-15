@@ -170,17 +170,27 @@ void UAugmentaReceiver::OnMessageReceived(const FOSCMessage& Message, const FStr
 
 void UAugmentaReceiver::UpdateScene(const FOSCMessage& Message)
 {
+	// UE5 : FVector2D is now double instead of float
+	// Create temporary float to cast
+	float TmpFloat;
+
 	// The way it is done in UOSCManager relies on private classes, so this may be the best way for now.
 	UOSCManager::GetInt32(Message, 0, Scene.CurrentTime);
 	UOSCManager::GetInt32(Message, 1, Scene.NumPeople);
-	UOSCManager::GetFloat(Message, 2, Scene.SceneSize.X);
-	UOSCManager::GetFloat(Message, 3, Scene.SceneSize.Y);
+	UOSCManager::GetFloat(Message, 2, TmpFloat);
+	Scene.SceneSize.X = TmpFloat;
+	UOSCManager::GetFloat(Message, 3, TmpFloat);
+	Scene.SceneSize.Y = TmpFloat;
 
 	OnSceneUpdated.Broadcast(Scene);
 }
 
 void UAugmentaReceiver::UpdateObject(const FOSCMessage& Message, bool HasEntered)
 {
+	// UE5 : FVector2D is now double instead of float
+	// Create temporary float to cast
+	float TmpFloat;
+
 	int32 Pid = -1;
 	UOSCManager::GetInt32(Message, 1, Pid);
 
@@ -191,15 +201,23 @@ void UAugmentaReceiver::UpdateObject(const FOSCMessage& Message, bool HasEntered
 	UOSCManager::GetInt32(Message, 0, Person.Frame);
 	UOSCManager::GetInt32(Message, 2, Person.Oid);
 	UOSCManager::GetFloat(Message, 3, Person.Age);
-	UOSCManager::GetFloat(Message, 4, Person.Centroid.X);
-	UOSCManager::GetFloat(Message, 5, Person.Centroid.Y);
-	UOSCManager::GetFloat(Message, 6, Person.Velocity.X);
-	UOSCManager::GetFloat(Message, 7, Person.Velocity.Y);
+	UOSCManager::GetFloat(Message, 4, TmpFloat);
+	Person.Centroid.X = TmpFloat;
+	UOSCManager::GetFloat(Message, 5, TmpFloat);
+	Person.Centroid.Y = TmpFloat;
+	UOSCManager::GetFloat(Message, 6, TmpFloat);
+	Person.Velocity.X = TmpFloat;
+	UOSCManager::GetFloat(Message, 7, TmpFloat);
+	Person.Velocity.Y = TmpFloat;
 	UOSCManager::GetFloat(Message, 8, Person.Orientation);
-	UOSCManager::GetFloat(Message, 9, Person.BoundingRectPos.X);
-	UOSCManager::GetFloat(Message, 10, Person.BoundingRectPos.Y);
-	UOSCManager::GetFloat(Message, 11, Person.BoundingRectSize.X);
-	UOSCManager::GetFloat(Message, 12, Person.BoundingRectSize.Y);
+	UOSCManager::GetFloat(Message, 9, TmpFloat);
+	Person.BoundingRectPos.X = TmpFloat;
+	UOSCManager::GetFloat(Message, 10, TmpFloat);
+	Person.BoundingRectPos.Y = TmpFloat;
+	UOSCManager::GetFloat(Message, 11, TmpFloat);
+	Person.BoundingRectSize.X = TmpFloat;
+	UOSCManager::GetFloat(Message, 12, TmpFloat);
+	Person.BoundingRectSize.Y = TmpFloat;
 	UOSCManager::GetFloat(Message, 13, Person.BoundingRectRotation);
 	UOSCManager::GetFloat(Message, 14, Person.Height);
 
@@ -229,10 +247,18 @@ void UAugmentaReceiver::RemoveObject(const FOSCMessage& Message)
 
 void UAugmentaReceiver::UpdateVideoOutputData(const FOSCMessage& Message)
 {
-	UOSCManager::GetFloat(Message, 0, VideoOutput.Offset.X);
-	UOSCManager::GetFloat(Message, 1, VideoOutput.Offset.Y);
-	UOSCManager::GetFloat(Message, 2, VideoOutput.Size.X);
-	UOSCManager::GetFloat(Message, 3, VideoOutput.Size.Y);
+	// UE5 : FVector2D is now double instead of float
+	// Create temporary float to cast
+	float TmpFloat;
+
+	UOSCManager::GetFloat(Message, 0, TmpFloat);
+	VideoOutput.Offset.X = TmpFloat;
+	UOSCManager::GetFloat(Message, 1, TmpFloat);
+	VideoOutput.Offset.Y = TmpFloat;
+	UOSCManager::GetFloat(Message, 2, TmpFloat);
+	VideoOutput.Size.X = TmpFloat;
+	UOSCManager::GetFloat(Message, 3, TmpFloat);
+	VideoOutput.Size.Y = TmpFloat;
 	UOSCManager::GetInt32(Message, 4, VideoOutput.Resolution.X);
 	UOSCManager::GetInt32(Message, 5, VideoOutput.Resolution.Y);
 
@@ -241,6 +267,10 @@ void UAugmentaReceiver::UpdateVideoOutputData(const FOSCMessage& Message)
 
 void UAugmentaReceiver::UpdateObjectExtraData(const FOSCMessage& Message, bool HasEntered)
 {
+	// UE5 : FVector2D is now double instead of float
+	// Create temporary float to cast
+	float TmpFloat;
+
 	int32 Id = -1;
 	UOSCManager::GetInt32(Message, 1, Id);
 
@@ -249,8 +279,10 @@ void UAugmentaReceiver::UpdateObjectExtraData(const FOSCMessage& Message, bool H
 	Extra.Id = Id;
 	UOSCManager::GetInt32(Message, 0, Extra.Frame);
 	UOSCManager::GetInt32(Message, 2, Extra.Oid);
-	UOSCManager::GetFloat(Message, 3, Extra.Highest.X);
-	UOSCManager::GetFloat(Message, 4, Extra.Highest.Y);
+	UOSCManager::GetFloat(Message, 3, TmpFloat);
+	Extra.Highest.X = TmpFloat;
+	UOSCManager::GetFloat(Message, 4, TmpFloat);
+	Extra.Highest.Y = TmpFloat;
 	UOSCManager::GetFloat(Message, 5, Extra.Distance);
 	UOSCManager::GetFloat(Message, 6, Extra.Reflectivity);
 
