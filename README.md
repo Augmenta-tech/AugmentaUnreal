@@ -1,6 +1,6 @@
 # [Augmenta](https://www.augmenta-tech.com) [Unreal](https://www.unrealengine.com) Plugin
 
-This repo contains the Augmenta Unreal Plugin only. It is currently compiled with Unreal version **4.25**.
+This repo contains the Augmenta Unreal Plugin only. It is currently compiled with Unreal version **5.0**.
 
 In order to use this plugin in any Unreal project, kindly make this repo as a submodule inside the `Plugins` folder similar to the [Augmenta Unreal Demo project](https://github.com/Augmenta-tech/AugmentaUnreal-Demo).
 
