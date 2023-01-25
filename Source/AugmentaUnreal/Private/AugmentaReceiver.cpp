@@ -1,4 +1,4 @@
-// Copyright 2012-2023 Augmenta, All Rights Reserved.
+// Copyright Augmenta, All Rights Reserved.
 
 #include "AugmentaReceiver.h"
 #include "OSCManager.h"
