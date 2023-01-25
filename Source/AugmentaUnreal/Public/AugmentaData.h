@@ -1,3 +1,5 @@
+// Copyright 2012-2023 Augmenta, All Rights Reserved.
+
 #pragma once
 
 #include "AugmentaData.generated.h"
