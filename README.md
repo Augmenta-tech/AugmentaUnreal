@@ -4,7 +4,7 @@ This repo contains the Augmenta Unreal Plugin only. It is currently built with U
 
 ## Installation
 
-In order to use this plugin in any Unreal project, kindly make this repo as a submodule inside the `Plugins` folder similar to the [Augmenta Unreal Demo project](https://github.com/Augmenta-tech/AugmentaUnreal-Demo).
+In order to use this plugin in any Unreal project, kindly make this repo as a submodule inside the `Plugins` folder of your Unreal project, similar to the [Augmenta Unreal Demo project](https://github.com/Augmenta-tech/AugmentaUnreal-Demo).
 
 ### Compiling the plugin inside your project
 
